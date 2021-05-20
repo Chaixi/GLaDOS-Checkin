@@ -4,15 +4,11 @@ import requests, json, os
 from datetime import datetime
 
 # server酱开关，填off不开启(默认)，填on同时开启cookie失效通知和签到成功通知
-SERVER = "on"
+SERVER = os.environ["SERVER"]
 # 填写server酱sckey,不开启server酱则不用填
-SCKEY = "SCU131982T134cf902075ed7f5179e8b91d7ea75ed5fc7330976360"
-# 'SCU89402Tf98b7f01ca3394*********************************'
+SCKEY = os.environ["SCKEY"]
 # 填入glados账号对应cookie
-COOKIE = [
-	"__cfduid=d9acfaf9bd15e258884514e35c70a7db61609168676; _ga=GA1.2.416012735.1609168680; _gid=GA1.2.1723433426.1609168680; koa:sess=eyJ1c2VySWQiOjYzOTU0LCJfZXhwaXJlIjoxNjM1MDg4NzIyMjQ2LCJfbWF4QWdlIjoyNTkyMDAwMDAwMH0=; koa:sess.sig=um87UXpvKPj3Pf6s-f_IpSvT_ZM",
-	"_ga=GA1.2.180625509.1621499157; _gid=GA1.2.508470988.1621499157; koa:sess=eyJ1c2VySWQiOjY3MzU1LCJfZXhwaXJlIjoxNjQ3NDE5NTAyOTM3LCJfbWF4QWdlIjoyNTkyMDAwMDAwMH0=; koa:sess.sig=dWUuouOfq9-SWvz6EQbTZK0npNQ"
-]
+COOKIE = os.environ["COOKIE"]
 
 LOG_FILE = open('log.txt', 'a+', encoding='utf-8')
 
