@@ -55,11 +55,5 @@ def check_in():
             requests.get('https://sc.ftqq.com/{0}.send?text={1}'.format(SCKEY, msg))
         LOG_FILE.write('{}\t{}\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
-def autoCheckIn():
-    scheduler = BlockingScheduler()
-    scheduler.add_job(func=check_in, trigger='interval', days=1)
-    scheduler.start()
-
 if __name__ == '__main__':
 	check_in()
-	autoCheckIn()
