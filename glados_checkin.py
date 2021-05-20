@@ -12,7 +12,7 @@ COOKIE = os.environ["COOKIE"]
 
 LOG_FILE = open('log.txt', 'a+', encoding='utf-8')
 
-def check_in():
+def check_in(cookie):
     url_checkin = 'https://glados.rocks/api/user/checkin'
     payload = {
         'token': "glados_network"
@@ -20,35 +20,34 @@ def check_in():
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
         'content-type': 'application/json;charset=UTF-8',
-        'cookie': '',
+        'cookie': cookie,
         'origin': 'https://glados.rocks',
         'referer': 'https://glados.rocks/console/checkin'
     }
 
-    for cookie in COOKIE:
-        headers['cookie'] = cookie
-        # print("{}\n".format(headers['cookie']))
-        try:
-            checkin_response = requests.post(url=url_checkin, headers=headers, data=json.dumps(payload))
-            # print("{}\n".format(checkin_response.text))
-            checkin_dict = json.loads(checkin_response.text)
-            if checkin_dict["code"] == 0:
-                print("user_id:{}签到成功！".format(checkin_dict["list"][0]["user_id"]))
-                # change_days = str(checkin_dict["list"][0]["change"]).split('.')[0]
-                left_days = str(checkin_dict["list"][0]["balance"]).split('.')[0]
-                msg = 'user_id: {}, {}, {}天后到期。'.format(checkin_dict["list"][0]["user_id"], checkin_dict["message"], left_days)
-            else:
-                # change_days = str(checkin_dict["list"][0]["change"]).split('.')[0]
-                left_days = str(checkin_dict["list"][0]["balance"]).split('.')[0]
-                msg = 'user_id: {}, {}, {}天后到期。'.format(checkin_dict["list"][0]["user_id"], checkin_dict["message"], left_days)
-        except Exception as e:
-            msg = 'Cookie 失效？{0}'.format(str(e))
-            print(str(e))
-        finally:
-            print(msg)
-        if SERVER == 'on':
-            requests.get('https://sc.ftqq.com/{0}.send?text={1}'.format(SCKEY, msg))
-        LOG_FILE.write('{}\t{}\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
+    # print("{}\n".format(headers['cookie']))
+    try:
+        checkin_response = requests.post(url=url_checkin, headers=headers, data=json.dumps(payload))
+        # print("{}\n".format(checkin_response.text))
+        checkin_dict = json.loads(checkin_response.text)
+        if checkin_dict["code"] == 0:
+            print("user_id:{}签到成功！".format(checkin_dict["list"][0]["user_id"]))
+            # change_days = str(checkin_dict["list"][0]["change"]).split('.')[0]
+            left_days = str(checkin_dict["list"][0]["balance"]).split('.')[0]
+            msg = 'user_id: {}, {}, {}天后到期。'.format(checkin_dict["list"][0]["user_id"], checkin_dict["message"], left_days)
+        else:
+            # change_days = str(checkin_dict["list"][0]["change"]).split('.')[0]
+            left_days = str(checkin_dict["list"][0]["balance"]).split('.')[0]
+            msg = 'user_id: {}, {}, {}天后到期。'.format(checkin_dict["list"][0]["user_id"], checkin_dict["message"], left_days)
+    except Exception as e:
+        msg = 'Cookie 失效？{0}'.format(str(e))
+        print(str(e))
+    finally:
+        print(msg)
+    if SERVER == 'on':
+        requests.get('https://sc.ftqq.com/{0}.send?text={1}'.format(SCKEY, msg))
+    LOG_FILE.write('{}\t{}\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
 if __name__ == '__main__':
-	check_in()
+	for cookie in COOKIE:
+		check_in(cookie)
