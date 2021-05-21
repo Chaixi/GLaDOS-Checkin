@@ -49,4 +49,5 @@ def check_in():
     LOG_FILE.write('{}\t{}\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
 if __name__ == '__main__':
+	print(COOKIE)
 	check_in()
