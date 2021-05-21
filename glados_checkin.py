@@ -3,14 +3,12 @@
 import requests, json, os
 from datetime import datetime
 
-# server酱开关，填off不开启(默认)，填on同时开启cookie失效通知和签到成功通知
+# server酱开关，填off不开启(默认)，填on同时开启cookie失效通知和签到成功通知(包括剩余使用天数。)
 SERVER = os.environ["SERVER"]
 # 填写server酱sckey,不开启server酱则不用填
 SCKEY = os.environ["SCKEY"]
-# 填入glados账号对应cookie
+# 填入glados账号对应cookie，若存在多个账号，账号之间的cookie用‘-*-’连接就行，如‘cookie1-*-cookie2-*-cookie3’
 COOKIE = os.environ["COOKIE"]
-
-LOG_FILE = open('log.txt', 'a+', encoding='utf-8')
 
 def check_in(cookie):
     url_checkin = 'https://glados.rocks/api/user/checkin'
@@ -24,19 +22,14 @@ def check_in(cookie):
         'origin': 'https://glados.rocks',
         'referer': 'https://glados.rocks/console/checkin'
     }
-
-    # print("{}\n".format(headers['cookie']))
     try:
         checkin_response = requests.post(url=url_checkin, headers=headers, data=json.dumps(payload))
-        # print("{}\n".format(checkin_response.text))
         checkin_dict = json.loads(checkin_response.text)
         if checkin_dict["code"] == 0:
-            print("user_id:{}签到成功！".format(checkin_dict["list"][0]["user_id"]))
-            # change_days = str(checkin_dict["list"][0]["change"]).split('.')[0]
+            print("user_id:{} 签到成功！\n".format(checkin_dict["list"][0]["user_id"]))
             left_days = str(checkin_dict["list"][0]["balance"]).split('.')[0]
             msg = 'user_id: {}, {}, {}天后到期。'.format(checkin_dict["list"][0]["user_id"], checkin_dict["message"], left_days)
         else:
-            # change_days = str(checkin_dict["list"][0]["change"]).split('.')[0]
             left_days = str(checkin_dict["list"][0]["balance"]).split('.')[0]
             msg = 'user_id: {}, {}, {}天后到期。'.format(checkin_dict["list"][0]["user_id"], checkin_dict["message"], left_days)
     except Exception as e:
@@ -46,12 +39,8 @@ def check_in(cookie):
         print(msg)
     if SERVER == 'on':
         requests.get('https://sc.ftqq.com/{0}.send?text={1}'.format(SCKEY, msg))
-    LOG_FILE.write('{}\t{}\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
 if __name__ == '__main__':
-	print('COOKIE is: {}\n'.format(COOKIE))
 	cookie = COOKIE.split('-*-')
-	print('cookie is: {}\n'.format(cookie))
 	for ck in cookie:
-		print('ck is: {}\n'.format(ck))
 		check_in(ck)
