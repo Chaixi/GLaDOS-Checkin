@@ -32,4 +32,4 @@ jobs:
       env:
         SERVER: ${{ secrets.SERVER }}
         SCKEY: ${{ secrets.SCKEY }}
-        COOKIE: ${{ toJSON(secrets.COOKIE) }}
+        COOKIE: ${{ secrets.COOKIE }}
