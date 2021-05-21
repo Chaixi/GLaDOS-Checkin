@@ -8,11 +8,11 @@ SERVER = os.environ["SERVER"]
 # 填写server酱sckey,不开启server酱则不用填
 SCKEY = os.environ["SCKEY"]
 # 填入glados账号对应cookie
-COOKIE = eval(os.environ["COOKIE"])
+COOKIE = os.environ["COOKIE"]
 
 LOG_FILE = open('log.txt', 'a+', encoding='utf-8')
 
-def check_in(cookie):
+def check_in():
     url_checkin = 'https://glados.rocks/api/user/checkin'
     payload = {
         'token': "glados_network"
@@ -20,7 +20,7 @@ def check_in(cookie):
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
         'content-type': 'application/json;charset=UTF-8',
-        'cookie': cookie,
+        'cookie': COOKIE,
         'origin': 'https://glados.rocks',
         'referer': 'https://glados.rocks/console/checkin'
     }
@@ -49,6 +49,4 @@ def check_in(cookie):
     LOG_FILE.write('{}\t{}\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
 if __name__ == '__main__':
-	print(COOKIE)
-	for cookie in COOKIE:
-		check_in(cookie)
+	check_in()
