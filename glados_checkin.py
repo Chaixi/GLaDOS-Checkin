@@ -49,6 +49,9 @@ def check_in(cookie):
     LOG_FILE.write('{}\t{}\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
 if __name__ == '__main__':
+	print('COOKIE is: {}'.format(COOKIE))
 	cookie = COOKIE.split('-')
+	print('cookie is: {}'.format(cookie))
 	for ck in cookie:
+		print('ck is: {}'.format(ck))
 		check_in(ck)
