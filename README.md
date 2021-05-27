@@ -21,7 +21,7 @@ Settings→Secrets→New repository secret；
 变量说明：
 | Name | Value | 说明 |
 | ---- | ---- | ---- |
-| COOKIE | \_ga=... | [cookie获取方式](#jump)，多个账号的cookie之间用'-\*-'连接即可，如'cookie1-\*-cookie2-\*-cookie3' |
+| COOKIE | \_ga=... | [cookie获取方式](#jump)，多个账号的cookie之间用'-\*-'连接即可，如'cookie1-\*-cookie2' |
 | SERVER | on/off | 是否打开server酱的微信推送 |
 | SCKEY | server酱的sckey | 如果SERVER=off，则SCKEY的value可不填 |
 
