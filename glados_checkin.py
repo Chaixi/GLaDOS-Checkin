@@ -44,3 +44,4 @@ if __name__ == '__main__':
 	cookie = COOKIE.split('-*-')
 	for ck in cookie:
 		check_in(ck)
+		
