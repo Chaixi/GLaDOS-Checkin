@@ -52,4 +52,3 @@ Actions→workflow runs→build→checkin.
 3. 输入账号和登录码登录；  
 4. 登录完成后在开发者界面中选择第一条请求（clash？），在右侧找到Request Headers，其中的cookie值就是我们所需要的value，复制下来直接粘贴到Secrets中COOKIE的Value就行。  
 ![image](https://user-images.githubusercontent.com/26132150/119799784-ff621f00-bf0e-11eb-886f-b463b7df7d5b.png)
-
